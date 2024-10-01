@@ -1,3 +1,5 @@
+package tasks.Final;
+
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class FinalTask implements Task {
     public void start() {
         running = true;
         downloadThread = new Thread(() -> {
-
+            System.out.println("download started");
             try (BufferedInputStream in =
                          new BufferedInputStream(new URL(fileUrl).openStream());
                  FileOutputStream fileOutputStream =
@@ -27,9 +29,14 @@ public class FinalTask implements Task {
                 int bytesRead;
                 while (running && (bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
                     fileOutputStream.write(dataBuffer, 0, bytesRead);
+                    Thread.sleep(10);
                 }
             } catch (IOException e) {
                 System.err.println("Download error: " + e.getMessage());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } finally {
+              running = false;
             }
         });
 
@@ -40,11 +47,17 @@ public class FinalTask implements Task {
     public void stop() {
         running = false;
         if (downloadThread != null) {
-            try {
-                downloadThread.join();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+            try{
+                downloadThread.interrupt();
+                try {
+                    downloadThread.join(); // Ждем завершения потока
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt(); // Восстанавливаем прерывание
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
+        System.out.println("thread stopped");
     }
 }

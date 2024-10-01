@@ -1,14 +1,19 @@
+package tasks;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ListTask {
     static final long INF = 100;
     public static void startTask(int capacity) {
         System.out.println("--List Task--");
+
+        Random random = new Random();
         ArrayList<Double> list = new ArrayList<>(capacity);
 
         System.out.println("Исходный список:");
         for(int i = 0; i < capacity; i++){
-            Double value = Math.random()*INF - Math.random()*INF;
+            Double value = random.nextDouble();
             list.add(value);
             System.out.print(value + "   ");
         }
@@ -22,10 +27,10 @@ public class ListTask {
         System.out.println("\n");
     }
 
-    public static ArrayList<Double> quickSort
+    public static void quickSort
             (ArrayList<Double> list, int leftIdx, int rightIdx){
         if(leftIdx == rightIdx){
-            return list;
+            return;
         }
 
         int endIdx = rightIdx;
@@ -49,6 +54,5 @@ public class ListTask {
         }
         quickSort(list, startIdx, rightIdx);
         quickSort(list, leftIdx, endIdx);
-        return list;
     }
 }

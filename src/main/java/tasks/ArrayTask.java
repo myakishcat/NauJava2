@@ -1,10 +1,16 @@
+package tasks;
+
+import java.util.Random;
+
 public class ArrayTask {
     static final long INF = 10000;
     public static void startTask(int capacity) {
         System.out.println("--Array Task--");
+
+        Random random = new Random();
         int[] arr = new int[capacity];
         for(int i = 0; i < capacity; i++){
-            arr[i] = (int) (Math.random()*INF - Math.random()*INF);
+            arr[i] = random.nextInt();
         }
 
         int minValue = Math.abs(arr[0]);

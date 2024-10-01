@@ -1,3 +1,5 @@
+package tasks.StreamApi;
+
 import java.util.ArrayList;
 
 public class StreamAPITask {

@@ -1,3 +1,5 @@
+package tasks.StreamApi;
+
 public class Employee {
     private String fullName;
     private Integer age;
